@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsOrderMapper">
+    <insert id="addBatchOrder" parameterType="java.util.List">
+        INSERT INTO mars_order
+        (pro_name,send_num,barcode,brand_name,sell_price,combine_barcode,pro_num,iscombination,
+        tid,refund_renum,pay_time,receiver_mobile,shop_name,transaction_id,out_tid,buyer_id,receiver_name,
+        province,city,district,express,delivery_time,express_no,integration_id,create_time,update_time)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.proName},
+            #{item.sendNum},
+            #{item.barcode},
+            #{item.brandName},
+            #{item.sellPrice},
+            #{item.combineBarcode},
+            #{item.proNum},
+            #{item.isCombination},
+            #{item.tid},
+            #{item.refundRenum},
+            #{item.payTime},
+            #{item.receiverMobile},
+            #{item.shopName},
+            #{item.transactionId},
+            #{item.outTid},
+            #{item.buyerId},
+            #{item.receiverName},
+            #{item.province},
+            #{item.city},
+            #{item.district},
+            #{item.express},
+            #{item.deliveryTime},
+            #{item.expressNo},
+            #{item.integrationId},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        pro_name=VALUES(pro_name),
+        send_num=VALUES(send_num),
+        barcode=VALUES(barcode),
+        brand_name=VALUES(brand_name),
+        sell_price=VALUES(sell_price),
+        combine_barcode=VALUES(combine_barcode),
+        pro_num=VALUES(pro_num),
+        iscombination=VALUES(iscombination),
+        tid=VALUES(tid),
+        refund_renum=VALUES(refund_renum),
+        pay_time=VALUES(pay_time),
+        receiver_mobile=VALUES(receiver_mobile),
+        shop_name=VALUES(shop_name),
+        transaction_id=VALUES(transaction_id),
+        out_tid=VALUES(out_tid),
+        buyer_id=VALUES(buyer_id),
+        receiver_name=VALUES(receiver_name),
+        province=VALUES(province),
+        city=VALUES(city),
+        district=VALUES(district),
+        express=VALUES(express),
+        delivery_time=VALUES(delivery_time),
+        express_no=VALUES(express_no),
+        integration_id=VALUES(integration_id),
+        update_time=VALUES(update_time)
+
+    </insert>
+    <!-- 获取指定日期的非会员数量 -->
+    <select id="getSalesPerDayCount" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') as date,count(DISTINCT mars_order.receiver_mobile) as memeberCount
+        FROM mars_order
+        WHERE DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') &gt;= #{startDate}
+        AND DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') &lt;= #{endDate}
+        GROUP BY
+        DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d')
+    </select>
+
+    <!-- 获取所有日期的非会员数量 -->
+    <select id="getSaleAllDayCount" resultType="com.st.model.MarsOrderSummary">
+        SELECT DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') as date,count(DISTINCT mars_order.receiver_mobile) as notMemberCount
+        FROM mars_order
+        GROUP BY
+        DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d')
+        HAVING date IS  NOT  NULL
+    </select>
+
+    <!-- 获取指定日期的非会员金额 -->
+    <select id="getSalesPerDayPrice" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') as date,SUM(mars_order.sell_price) as sellPrice
+        FROM mars_order
+        WHERE DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') &gt;= #{startDate}
+        AND DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') &lt;= #{endDate}
+        GROUP BY
+        DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d')
+    </select>
+
+    <!-- 获取每天的非会员金额 -->
+    <select id="getSalesAllDayPrice" resultType="com.st.model.MarsOrderSummary">
+        SELECT DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') as date,SUM(mars_order.sell_price) as notSellPrice
+        FROM mars_order
+        GROUP BY
+        DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d')
+        HAVING date IS  NOT  NULL
+    </select>
+
+    <select id="getRankingCount" resultType="com.st.model.MarsRankingSummary">
+        SELECT pro_name as proName,DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d') as deliveryTime,SUM(mars_order.send_num) as sendNum FROM mars_order
+        WHERE (iscombination = '0' OR iscombination ='2')
+        GROUP BY proName,DATE_FORMAT(mars_order.delivery_time,'%Y-%m-%d')
+        HAVING deliveryTime is not NULL
+    </select>
+    <select id="findOrderByPage" resultType="com.st.model.MarsOrder">
+        SELECT
+                send_num as sendNum,
+                barcode as barcode,
+                pay_time as payTime,
+                receiver_mobile as receiverMobile,
+                province as province,
+                receiver_name as receiverName,
+                buyer_id as buyerId
+                FROM mars_order limit #{pageNo},#{pageSize}
+    </select>
+    <select id="findOrderByPagees" resultType="com.st.model.MarsOrder">
+        SELECT
+              pro_name AS proName,
+              send_num AS sendNum,
+              barcode AS barcode,
+              brand_name AS brandName,
+              sell_price AS sellPrice,
+              combine_barcode AS combineBarcode,
+              pro_num AS proNum,
+              iscombination AS isCombination,
+              tid AS tid,
+              refund_renum AS refundRenum,
+              pay_time AS payTime,
+              receiver_mobile AS receiverMobile,
+              shop_name AS shopName,
+              transaction_id AS transactionId,
+              out_tid AS outTid,
+              buyer_id AS buyerId,
+              receiver_name AS receiverName,
+              province AS province,
+              city AS city,
+              district AS district,
+              express AS express,
+              delivery_time AS deliveryTime,
+              express_no AS expressNo,
+              integration_id AS integrationId,
+              create_time AS createTime,
+              update_time AS updateTime
+              FROM mars_order
+              WHERE mars_order.receiver_mobile != ''
+              limit #{pageNo},#{pageSize}
+    </select>
+    
+    <select id="getAllCount" resultType="int">
+        SELECT COUNT(1) FROM mars_order WHERE mars_order.receiver_mobile != ''
+    </select>
+
+</mapper>

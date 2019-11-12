@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsOrderSummaryMapper">
+    <insert id="saveNotMemberCountBatch" parameterType="java.util.List">
+        INSERT INTO mars_order_summary
+        (date,not_member_count)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.date},
+            #{item.notMemberCount}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        not_member_count=VALUES(not_member_count)
+    </insert>
+    <insert id="saveNotSellPriceBatch" parameterType="java.util.List">
+        INSERT INTO mars_order_summary
+        (date,not_sell_price)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.date},
+            #{item.notSellPrice}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        not_sell_price=VALUES(not_sell_price)
+    </insert>
+    <select id="getMarsOrderSummaryForDate" parameterType="java.lang.String" resultType="com.st.model.MarsOrderSummary">
+        SELECT date as date,not_member_count as notMemberCount,
+               member_count as memberCount,not_sell_price as notSellPrice,
+               sell_price as sellPrice
+         FROM mars_order_summary
+        WHERE mars_order_summary.date &gt;= #{startDate}
+        AND mars_order_summary.date &lt;= #{endDate}
+    </select>
+</mapper>

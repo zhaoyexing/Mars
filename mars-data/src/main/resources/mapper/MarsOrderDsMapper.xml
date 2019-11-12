@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsOrderDsMapper">
+    <!--批量保存更新 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        INSERT INTO mars_order_ds(
+        tid,
+        buyer_id,
+        alipay_account,
+        payable_payment,
+        payable_ems,
+        payable_integral,
+        total_amount,
+        return_integral,
+        actual_payable_integral,
+        actual_payable_amount,
+        order_status,
+        buyer_message,
+        receiver_name,
+        receiver_address,
+        transport_mode,
+        mobile_phone,
+        tel_phone,
+        bill_create_time,
+        bill_payment_time,
+        baby_title,
+        baby_type,
+        express_no,
+        express_company,
+        order_comment,
+        baby_count,
+        shop_id,
+        shop_name,
+        combine_barcode,
+        pro_num,
+        product_type,
+        order_type,
+        transaction_id,
+        origin_code,
+        dest_code,
+        result_num,
+        delivery_time,
+        total_num,
+        big_marker,
+        refund_renum,
+        payment_status,
+        send_status,
+        order_net_weight,
+        gross_orders,
+        product_id,
+        specifications,
+        suit_detail,
+        shop_product_name,
+        shop_specifications,
+        premium_quantity,
+        product_quotation,
+        total_product_weight,
+        product_return_quantity,
+        receipt_time,
+        discount_amount,
+        trade_source,
+        platform_type,
+        terminal_type,
+        transaction_number,
+        province,
+        city,
+        district,
+        create_time,
+        update_time,
+        integration_id,
+        platform_preference,
+        out_tid,
+        bar_code,
+        brand_name,
+        pro_all_account,
+        pro_sale_account,
+        pro_deductible,
+        pro_deal_price,
+        business_push_flag,
+        send_num
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.tid},
+            #{item.buyerId},
+            #{item.alipayAccount},
+            #{item.payablePayment},
+            #{item.payableEms},
+            #{item.payableIntegral},
+            #{item.totalAmount},
+            #{item.returnIntegral},
+            #{item.actualPayableIntegral},
+            #{item.actualPayableAmount},
+            #{item.orderStatus},
+            #{item.buyerMessage},
+            #{item.receiverName},
+            #{item.receiverAddress},
+            #{item.transportMode},
+            #{item.mobilePhone},
+            #{item.telPhone},
+            #{item.billCreateTime},
+            #{item.billPaymentTime},
+            #{item.babyTitle},
+            #{item.babyType},
+            #{item.expressNo},
+            #{item.expressCompany},
+            #{item.orderComment},
+            #{item.babyCount},
+            #{item.shopId},
+            #{item.shopName},
+            #{item.combineBarcode},
+            #{item.proNum},
+            #{item.productType},
+            #{item.orderType},
+            #{item.transactionId},
+            #{item.originCode},
+            #{item.destCode},
+            #{item.resultNum},
+            #{item.deliveryTime},
+            #{item.totalNum},
+            #{item.bigMarker},
+            #{item.refundRenum},
+            #{item.paymentStatus},
+            #{item.sendStatus},
+            #{item.orderNetWeight},
+            #{item.grossOrders},
+            #{item.productId},
+            #{item.specifications},
+            #{item.suitDetail},
+            #{item.shopProductName},
+            #{item.shopSpecifications},
+            #{item.premiumQuantity},
+            #{item.productQuotation},
+            #{item.totalProductWeight},
+            #{item.productReturnQuantity},
+            #{item.receiptTime},
+            #{item.discountAmount},
+            #{item.tradeSource},
+            #{item.platformType},
+            #{item.terminalType},
+            #{item.transactionNumber},
+            #{item.province},
+            #{item.city},
+            #{item.district},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.integrationId},
+            #{item.platformPreference},
+            #{item.outTid},
+            #{item.barCode},
+            #{item.brandName},
+            #{item.proAllAccount},
+            #{item.proSaleAccount},
+            #{item.proDeductible},
+            #{item.proDealPrice},
+            #{item.businessPushFlag},
+            #{item.sendNum}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        tid=VALUES(tid),
+        buyer_id=VALUES(buyer_id),
+        alipay_account=VALUES(alipay_account),
+        payable_payment=VALUES(payable_payment),
+        payable_ems=VALUES(payable_ems),
+        payable_integral=VALUES(payable_integral),
+        total_amount=VALUES(total_amount),
+        return_integral=VALUES(return_integral),
+        actual_payable_integral=VALUES(actual_payable_integral),
+        actual_payable_amount=VALUES(actual_payable_amount),
+        order_status=VALUES(order_status),
+        buyer_message=VALUES(buyer_message),
+        receiver_name=VALUES(receiver_name),
+        receiver_address=VALUES(receiver_address),
+        transport_mode=VALUES(transport_mode),
+        mobile_phone=VALUES(mobile_phone),
+        tel_phone=VALUES(tel_phone),
+        bill_create_time=VALUES(bill_create_time),
+        bill_payment_time=VALUES(bill_payment_time),
+        baby_title=VALUES(baby_title),
+        baby_type=VALUES(baby_type),
+        express_no=VALUES(express_no),
+        express_company=VALUES(express_company),
+        order_comment=VALUES(order_comment),
+        baby_count=VALUES(baby_count),
+        shop_id=VALUES(shop_id),
+        shop_name=VALUES(shop_name),
+        combine_barcode=VALUES(combine_barcode),
+        pro_num=VALUES(pro_num),
+        product_type=VALUES(product_type),
+        order_type=VALUES(order_type),
+        transaction_id=VALUES(transaction_id),
+        origin_code=VALUES(origin_code),
+        dest_code=VALUES(dest_code),
+        result_num=VALUES(result_num),
+        delivery_time=VALUES(delivery_time),
+        total_num=VALUES(total_num),
+        big_marker=VALUES(big_marker),
+        refund_renum=VALUES(refund_renum),
+        payment_status=VALUES(payment_status),
+        send_status=VALUES(send_status),
+        order_net_weight=VALUES(order_net_weight),
+        gross_orders=VALUES(gross_orders),
+        product_id=VALUES(product_id),
+        specifications=VALUES(specifications),
+        suit_detail=VALUES(suit_detail),
+        shop_product_name=VALUES(shop_product_name),
+        shop_specifications=VALUES(shop_specifications),
+        premium_quantity=VALUES(premium_quantity),
+        product_quotation=VALUES(product_quotation),
+        total_product_weight=VALUES(total_product_weight),
+        product_return_quantity=VALUES(product_return_quantity),
+        receipt_time=VALUES(receipt_time),
+        discount_amount=VALUES(discount_amount),
+        trade_source=VALUES(trade_source),
+        platform_type=VALUES(platform_type),
+        terminal_type=VALUES(terminal_type),
+        transaction_number=VALUES(transaction_number),
+        province=VALUES(province),
+        city=VALUES(city),
+        district=VALUES(district),
+        create_time=VALUES(create_time),
+        update_time=VALUES(update_time),
+        integration_id=VALUES(integration_id),
+        platform_preference=VALUES(platform_preference),
+        out_tid=VALUES(out_tid),
+        bar_code=VALUES(bar_code),
+        brand_name=VALUES(brand_name),
+        pro_all_account=VALUES(pro_all_account),
+        pro_sale_account=VALUES(pro_sale_account),
+        pro_deductible=VALUES(pro_deductible),
+        pro_deal_price=VALUES(pro_deal_price)
+    </insert>
+    <select id="getAllCount" resultType="int">
+        SELECT count(1) FROM mars_order_ds WHERE mars_order_ds.bar_code is not NULL AND mars_order_ds.push_flag = 'N' AND business_push_flag = 'N'
+    </select>
+
+    <select id="findOrderDsByPage"  resultType="com.st.model.MarsOrderDs">
+        SELECT
+        send_num AS sendNum,
+        bar_code AS barCode,
+        bill_payment_time AS billPaymentTime,
+        mobile_phone AS mobilePhone,
+        province AS province,
+        receiver_name AS receiverName,
+        integration_id AS integrationId,
+        buyer_id AS buyerId
+        FROM mars_order_ds
+        WHERE mars_order_ds.bar_code is not NULL AND integration_id IN (SELECT a.integrationId FROM (SELECT
+        integration_id AS integrationId
+        FROM mars_order_ds WHERE business_push_flag = 'N'
+        limit  #{pageNo},#{pageSize}) AS a)
+    </select>
+
+    <select id="getSaleAllDayCount" resultType="com.st.model.MarsOrderSummary">
+        SELECT DATE_FORMAT(mars_order_ds.delivery_time,'%Y-%m-%d') as date,count(DISTINCT mars_order_ds.mobile_phone) as notMemberCount
+        FROM mars_order_ds
+        GROUP BY
+        DATE_FORMAT(mars_order_ds.delivery_time,'%Y-%m-%d')
+        HAVING date IS  NOT  NULL
+    </select>
+
+    <select id="getSalesAllDayPrice" resultType="com.st.model.MarsOrderSummary">
+        SELECT DATE_FORMAT(mars_order_ds.delivery_time,'%Y-%m-%d') as date,SUM(mars_order_ds.actual_payable_amount) as notSellPrice
+        FROM mars_order_ds
+        GROUP BY
+        DATE_FORMAT(mars_order_ds.delivery_time,'%Y-%m-%d')
+        HAVING date IS  NOT  NULL
+    </select>
+
+    <select id="getRankingCount" resultType="com.st.model.MarsRankingSummary">
+        SELECT baby_title as proName,DATE_FORMAT(mars_order_ds.delivery_time,'%Y-%m-%d') as deliveryTime,SUM(mars_order_ds.send_num) as sendNum FROM mars_order_ds
+        WHERE (baby_type = '0' OR baby_type ='2')
+        GROUP BY baby_title,DATE_FORMAT(mars_order_ds.delivery_time,'%Y-%m-%d')
+        HAVING deliveryTime is not NULL
+    </select>
+    <!--根据条件查询下载任务数据-->
+    <select id="selectDownData" parameterType="map" resultType="com.st.model.MarsOrderDs">
+        SELECT ${fields} FROM mars_order_ds ${conResult} LIMIT #{pageIndex},10000
+    </select>
+
+    <select id="selectTotalData" parameterType="map" resultType="java.lang.Integer">
+        SELECT count(*) FROM mars_order_ds ${conResult}
+    </select>
+
+    <select id="selectDistinctData" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT open_id) FROM mars_order_ds WHERE open_id IS NOT NULL
+    </select>
+
+    <update id="updatePushFlag" parameterType="java.lang.String">
+        UPDATE mars_order_ds
+        SET push_flag= 'N'
+        WHERE integration_id= #{pushFlag}
+    </update>
+
+    <update id="updateUserGroup" parameterType="com.st.model.MarsUserGroup">
+        update mars_user_group
+        set group_name=#{groupName},
+        query_condition=#{queryCondition},
+        update_time=#{updateTime},
+        life_cycle=#{lifeCycle}
+        where id = #{id}
+    </update>
+
+    <select id="getEBUser" parameterType="java.lang.Integer" resultType="com.st.model.EBUser">
+        SELECT
+        b.open_id openId,
+        b.member_name memberName,
+        a.tid tid,
+        a.buyer_id buyerId,
+        a.actual_payable_amount actualPayableAmount,
+        a.receiver_name receiverName,
+        CONCAT(a.province,a.city,a.district) receiverAddress,
+        a.mobile_phone mobilePhone,
+        a.baby_title babyTitle,
+        a.baby_type babyType,
+        a.send_num proNum,
+        a.shop_id shopId,
+        a.shop_name shopName,
+        a.bill_payment_time billPaymentTime
+        from mars_order_ds a JOIN mars_reg_memberinfo b ON a.mobile_phone = b.member_mobile
+        LIMIT
+        #{noPage}, #{pageSize}
+    </select>
+
+    <select id="getEBuserCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        from mars_order_ds a JOIN mars_reg_memberinfo b ON a.mobile_phone = b.member_mobile
+    </select>
+
+    <insert id="addEBUser" parameterType="java.util.List">
+        INSERT INTO mars_order_ds(
+        tid,
+        buyer_id,
+        alipay_account,
+        payable_payment,
+        payable_ems,
+        payable_integral,
+        total_amount,
+        return_integral,
+        actual_payable_integral,
+        actual_payable_amount,
+        order_status,
+        buyer_message,
+        receiver_name,
+        receiver_address,
+        transport_mode,
+        mobile_phone,
+        tel_phone,
+        bill_create_time,
+        bill_payment_time,
+        baby_title,
+        baby_type,
+        express_no,
+        express_company,
+        order_comment,
+        baby_count,
+        shop_id,
+        shop_name,
+        combine_barcode,
+        pro_num,
+        product_type,
+        order_type,
+        transaction_id,
+        origin_code,
+        dest_code,
+        result_num,
+        delivery_time,
+        total_num,
+        big_marker,
+        refund_renum,
+        payment_status,
+        send_status,
+        order_net_weight,
+        gross_orders,
+        product_id,
+        specifications,
+        suit_detail,
+        shop_product_name,
+        shop_specifications,
+        premium_quantity,
+        product_quotation,
+        total_product_weight,
+        product_return_quantity,
+        receipt_time,
+        discount_amount,
+        trade_source,
+        platform_type,
+        terminal_type,
+        transaction_number,
+        province,
+        city,
+        district,
+        create_time,
+        update_time,
+        integration_id,
+        platform_preference,
+        out_tid,
+        bar_code,
+        brand_name,
+        pro_all_account,
+        pro_sale_account,
+        pro_deductible,
+        pro_deal_price,
+        business_push_flag,
+        send_num
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.tid},
+            #{item.buyerId},
+            #{item.alipayAccount},
+            #{item.payablePayment},
+            #{item.payableEms},
+            #{item.payableIntegral},
+            #{item.totalAmount},
+            #{item.returnIntegral},
+            #{item.actualPayableIntegral},
+            #{item.actualPayableAmount},
+            #{item.orderStatus},
+            #{item.buyerMessage},
+            #{item.receiverName},
+            #{item.receiverAddress},
+            #{item.transportMode},
+            #{item.mobilePhone},
+            #{item.telPhone},
+            #{item.billCreateTime},
+            #{item.billPaymentTime},
+            #{item.babyTitle},
+            #{item.babyType},
+            #{item.expressNo},
+            #{item.expressCompany},
+            #{item.orderComment},
+            #{item.babyCount},
+            #{item.shopId},
+            #{item.shopName},
+            #{item.combineBarcode},
+            #{item.proNum},
+            #{item.productType},
+            #{item.orderType},
+            #{item.transactionId},
+            #{item.originCode},
+            #{item.destCode},
+            #{item.resultNum},
+            #{item.deliveryTime},
+            #{item.totalNum},
+            #{item.bigMarker},
+            #{item.refundRenum},
+            #{item.paymentStatus},
+            #{item.sendStatus},
+            #{item.orderNetWeight},
+            #{item.grossOrders},
+            #{item.productId},
+            #{item.specifications},
+            #{item.suitDetail},
+            #{item.shopProductName},
+            #{item.shopSpecifications},
+            #{item.premiumQuantity},
+            #{item.productQuotation},
+            #{item.totalProductWeight},
+            #{item.productReturnQuantity},
+            #{item.receiptTime},
+            #{item.discountAmount},
+            #{item.tradeSource},
+            #{item.platformType},
+            #{item.terminalType},
+            #{item.transactionNumber},
+            #{item.province},
+            #{item.city},
+            #{item.district},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.integrationId},
+            #{item.platformPreference},
+            #{item.outTid},
+            #{item.barCode},
+            #{item.brandName},
+            #{item.proAllAccount},
+            #{item.proSaleAccount},
+            #{item.proDeductible},
+            #{item.proDealPrice},
+            'Y',
+            #{item.sendNum}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        business_push_flag=VALUES(business_push_flag)
+    </insert>
+
+    <update id="updateBarcode" parameterType="java.lang.String">
+      UPDATE mars_order_ds m INNER JOIN mars_barcode_brandname b on m.bar_code = b.bar_code SET m.brand_name = b.brand_name WHERE m.integration_id = #{integrationId}
+    </update>
+
+</mapper>

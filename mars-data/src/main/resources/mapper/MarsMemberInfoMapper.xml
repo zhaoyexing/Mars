@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsMemberInfoMapper">
+    <!-- 获取活动名称列表 -->
+
+    <insert id="saveMemberInfo" parameterType="map" >
+
+        INSERT  INTO mars_reg_memberinfo(
+		member_id,
+		open_id,
+		member_name,
+		sex,
+		email,
+		points,
+		province,
+		city,
+		member_mobile,
+		member_sn_code,
+		birthday,
+		member_identification,
+		headimg,
+		member_outlet,
+		level_id,
+		member_identity,
+		identity_type,
+		is_frozen,
+		points_total,
+		last_sign_time,
+		address,
+		level_name
+	)
+	 VALUES(
+        #{id},
+        #{open_id},
+        #{name},
+        #{sex},
+        #{email},
+        #{points},
+        #{province},
+        #{city},
+        #{mobile},
+        #{sn},
+        #{birthday},
+        #{identification},
+        #{headimg},
+        #{outlet},
+        #{level_id},
+        #{identity},
+        #{identity_type},
+        #{is_frozen},
+        #{points_total},
+        #{last_sign_time},
+        #{address},
+        #{level_name}
+
+	 )
+	 ON  DUPLICATE KEY UPDATE
+	    member_id =  #{id},
+	 	member_name =  #{name},
+		sex = #{sex},
+		email = #{email},
+		points =  #{points},
+		province = #{province},
+		city = #{city},
+		member_mobile =  #{mobile},
+		member_sn_code = #{sn},
+		birthday = #{birthday},
+		member_identification = #{identification},
+		headimg =  #{headimg},
+		member_outlet =  #{outlet},
+		level_id = #{level_id},
+		member_identity = #{identity},
+		identity_type = #{identity_type},
+		is_frozen = #{is_frozen},
+		points_total =  #{points_total},
+		last_sign_time = #{last_sign_time},
+		address = #{address},
+		level_name = #{level_name},
+		last_update_time = now(),
+		push_flag = 'N'
+    </insert>
+    <select id="getPushMemberInfoList" parameterType="string" resultType="map">
+
+        SELECT
+             id,member_id,open_id,sex,province,member_mobile,record_create_time
+        FROM
+             mars_reg_memberinfo
+        WHERE
+          push_flag = 'N'
+
+
+
+    </select>
+    <select id="getPushMemberCount" resultType="int">
+           SELECT
+               count(*)
+            FROM
+                 mars_reg_memberinfo
+            WHERE
+              push_flag = 'N'
+    </select>
+    <select id="getMatchOrderList" resultType="map">
+        SELECT
+            t2.integration_id,
+            t2.bar_code,
+            t1.open_id,
+            t2.bill_payment_time
+        FROM
+            mars_reg_memberinfo t1,
+            mars_order_ds t2
+        WHERE
+            t1.member_mobile = t2.mobile_phone
+        AND t2.push_flag = 'N'
+        AND t2.bar_code IS  NOT  NULL
+
+
+    </select>
+
+    <update id="updateMemberPushFlag" parameterType="list">
+
+        <foreach collection="list" item="item" index="index"  separator=";">
+              UPDATE  mars_reg_memberinfo
+              <set>
+                  push_flag = 'Y'
+              </set>
+              WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <update id="updateOrderPushFlag" parameterType="list">
+
+        <foreach collection="list" item="item" index="index"  separator=";">
+            UPDATE  mars_order_ds
+            <set>
+                push_flag = 'Y',
+                open_id = #{item.open_id}
+            </set>
+            WHERE integration_id = #{item.integration_id}
+        </foreach>
+    </update>
+
+    <select id="getPushMemberInfoByPage" parameterType="map" resultType="map">
+         SELECT
+           id,member_id,open_id,sex,province,last_sign_time
+        FROM
+             mars_reg_memberinfo
+        WHERE
+          push_flag = 'N'
+           limit #{startRow},#{pageSize}
+
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsActivityCampaginMapper">
+    <!-- 获取活动名称列表 -->
+    <select id="getActivityNameList" resultType="java.lang.String">
+        SELECT DISTINCT mars_activity_campagin.activity_name as activityName
+        FROM mars_activity_campagin
+    </select>
+
+    <select id="getUrlByActivityName" parameterType="java.lang.String" resultType="com.st.model.MarsActivityCampagin">
+        SELECT mars_activity_campagin.page_name as pageName,mars_activity_campagin.page_url as pageUrl
+        FROM mars_activity_campagin
+        WHERE mars_activity_campagin.activity_name = #{activityName}
+    </select>
+    <select id="getInteractName" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT tag_name AS tagName FROM
+        mars_tags_tmp
+        WHERE tag_id = #{id}
+    </select>
+</mapper>

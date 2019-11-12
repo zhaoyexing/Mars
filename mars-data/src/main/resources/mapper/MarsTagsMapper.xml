@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsTagsMapper">
+    <insert id="saveMarsTagsBatch" parameterType="java.util.List">
+        INSERT INTO mars_tags
+        (id,appkey,tagName,tagDescription,classId,defWeight,calcType,generalTagType,generalPropName,create_time,update_time)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.id},
+            #{item.appkey},
+            #{item.tagName},
+            #{item.tagDescription},
+            #{item.classId},
+            #{item.defWeight},
+            #{item.calcType},
+            #{item.generalTagType},
+            #{item.generalPropName},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        appkey = VALUES(appkey),
+        tagName = VALUES(tagName),
+        tagDescription=VALUES(tagDescription),
+        classId=VALUES(classId),
+        defWeight=VALUES(defWeight),
+        calcType=VALUES(calcType),
+        generalTagType=VALUES(generalTagType),
+        generalPropName=VALUES(generalPropName)
+    </insert>
+
+    <delete id="deleteDate">
+        TRUNCATE TABLE mars_tags
+    </delete>
+
+    <!-- 通过父Id找子类标签 -->
+    <select id="getMarsUserGroupConditionsTags" parameterType="java.lang.String" resultType="com.st.model.MarsTags">
+        SELECT id as id, tagName AS tagName,classId AS classId
+        FROM mars_tags
+        WHERE  mars_tags.classId = #{classId}
+    </select>
+    <!-- 通过父Id找子类标签,生成临时类 -->
+    <select id="getMarsTagsTmp" parameterType="java.lang.String" resultType="com.st.model.MarsTagsTmp">
+        SELECT id as tagId, tagName AS tagName,classId AS classId
+        FROM mars_tags
+        WHERE  mars_tags.classId = #{classId}
+    </select>
+    <!-- 获取MarsTagsTemp集合-->
+    <select id="getMarsTagsTmpList" resultType="com.st.model.MarsTagsTmp">
+        SELECT
+        id AS tagId, tagName as tagName, classId AS classId, create_time AS createTime, update_time AS updateTime
+        FROM mars_tags
+        WHERE mars_tags.classId = '200613'
+          OR mars_tags.classId = '200621'
+          OR mars_tags.classId = '200625'
+          OR mars_tags.classId = '200629'
+          OR mars_tags.classId = '200633'
+    </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsRankingSummaryMapper">
+    <insert id="addMarsRankingSummaryBatch" parameterType="java.util.List">
+        INSERT INTO mars_ranking_summary
+        (pro_name,delivery_time,send_num,create_time,update_time,integration_id)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.proName},
+            #{item.deliveryTime},
+            #{item.sendNum},
+            #{item.createTime},
+            #{item.updateTime},
+            #{item.integrationId}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        pro_name=VALUES(pro_name),
+        delivery_time=VALUES(delivery_time),
+        send_num=VALUES(send_num),
+        update_time = VALUES(update_time)
+    </insert>
+
+    <!-- 查询销售量top10的产品 -->
+    <select id="getSalesTopTen" parameterType="java.lang.String" resultType="com.st.model.MarsRankingSummary">
+        SELECT mars_ranking_summary.pro_name as proName,SUM(mars_ranking_summary.send_num) as sendNum FROM mars_ranking_summary
+        where
+        DATE_FORMAT(mars_ranking_summary.delivery_time,'%Y-%m-%d') &gt;= #{startDate}
+        AND DATE_FORMAT(mars_ranking_summary.delivery_time,'%Y-%m-%d') &lt;= #{endDate}
+        GROUP BY pro_name
+        ORDER BY SUM(send_num)  DESC
+        LIMIT 10;
+    </select>
+
+    <!-- 获取总的数量 -->
+    <select id="getSalesTotalCount" parameterType="java.lang.String" resultType="INTEGER">
+        SELECT SUM(mars_ranking_summary.send_num) FROM
+        mars_ranking_summary
+        WHERE
+        DATE_FORMAT(mars_ranking_summary.delivery_time,'%Y-%m-%d') &gt;= #{startDate}
+        AND DATE_FORMAT(mars_ranking_summary.delivery_time,'%Y-%m-%d') &lt;= #{endDate}
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsTagClassTmpMapper">
+    <insert id="saveMarsTagClassTmpBatch" parameterType="java.util.List">
+        INSERT INTO mars_tag_class_tmp
+        (classId,className,pid,create_time,update_time)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.classId},
+            #{item.className},
+            #{item.pid},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        classId = VALUES(classId),
+        className=VALUES(className),
+        pid=VALUES(pid),
+        create_time=VALUES(create_time),
+        update_time=VALUES(update_time)
+    </insert>
+    <select id="getAllClassId"  resultType="java.lang.String">
+        SELECT classId FROM mars_tag_class_tmp
+    </select>
+
+    <select id="getMarsTagClassTmpList" parameterType="java.lang.Integer" resultType="com.st.model.MarsTagClassTmp">
+        SELECT id as id, classId as classId,className as className
+        FROM mars_tag_class_tmp  WHERE pid = #{pid}
+    </select>
+</mapper>

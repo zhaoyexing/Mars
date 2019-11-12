@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.SmsAgainMapper">
+    <resultMap id="resultMap" type="com.st.model.SmsAgain">
+        <result property="mobilePhone" column="mobile_phone" jdbcType="VARCHAR"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+        <result property="communicateTime" column="communicate_time" jdbcType="DATE"/>
+    </resultMap>
+    <select id="getAllByDate" parameterType="java.lang.String" resultMap="resultMap">
+        SELECT * FROM
+        sms_again WHERE communicate_time = #{date}
+    </select>
+</mapper>

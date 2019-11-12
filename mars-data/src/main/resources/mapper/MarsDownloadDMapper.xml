@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsDownloadDMapper">
+    <!-- 插入下载列表 -->
+   <insert id="addMarsDownload" parameterType="com.st.model.MarsDownloadD" useGeneratedKeys="true" keyProperty="id">
+        INSERT IGNORE INTO mars_download_d(create_user,download_name,create_time,json_data,file_status,count,complete_pre)
+        VALUES (#{createUser},#{downloadName},#{createTime},#{jsonData},#{fileStatus},#{count},#{completePre})
+   </insert>
+
+    <!-- 根据序号删除记录 -->
+    <delete id="deleteMarsDownload">
+        delete from mars_download_d WHERE id = #{id}
+    </delete>
+
+    <!-- 查找下载列表 -->
+    <select id="findMarsDownload" resultType="com.st.model.MarsDownloadD">
+        select
+          id as id,
+          create_user as createUser,
+          download_name as downloadName,
+          create_time as createTime,
+          file_status as fileStatus,
+          count as count,
+          complete_pre as completePre
+        FROM mars_download_d limit #{pageNo},10
+    </select>
+
+    <update id="updateMarsDownload" parameterType="com.st.model.MarsDownloadD">
+        UPDATE mars_download_d SET file_status=#{fileStatus},count=#{count},complete_pre=#{completePre} WHERE id = #{id}
+    </update>
+
+    <select id="selectCountByFileName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(download_name) FROM mars_download_d WHERE download_name = #{fileName}
+    </select>
+
+    <select id="getDownloadDList" parameterType="map" resultType="com.st.model.MarsDownloadD">
+        SELECT
+            id,
+            create_user createUser,
+            download_name downloadName,
+            create_time createTime,
+            file_status fileStatus,
+            count,
+            complete_pre completePre
+        FROM
+            mars_download_d ORDER BY create_time DESC LIMIT #{pageIndex},#{pageSize}
+    </select>
+
+    <select id="getDownloadCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM mars_download_d
+    </select>
+    
+    <select id="selectJsonData" parameterType="java.lang.String" resultType="com.st.model.MarsDownloadD">
+        SELECT json_data jsonData FROM mars_download_d WHERE download_name = #{fileName}
+    </select>
+
+    <delete id="deleteFile" parameterType="java.lang.String">
+        DELETE FROM mars_download_d WHERE download_name = #{fileName}
+    </delete>
+</mapper>

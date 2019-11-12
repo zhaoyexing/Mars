@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsUserGroupMapper">
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mars_user_group
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <select id="getUserGroupConditionsById" parameterType="java.lang.String" resultType="com.st.model.MarsUserGroup">
+        SELECT id as id,group_name as groupName,query_condition as queryCondition,create_time as createTime,life_cycle as lifeCycle
+        FROM  mars_user_group
+        WHERE id = #{groupId}
+    </select>
+    <update id="updateUserGroup" parameterType="com.st.model.MarsUserGroup">
+        update mars_user_group
+        set group_name=#{groupName},
+        query_condition=#{queryCondition},
+        update_time=#{updateTime},
+        life_cycle=#{lifeCycle}
+        where id = #{id}
+    </update>
+    <insert id="saveUserGroupBatch" parameterType="com.st.model.MarsUserGroup">
+        INSERT INTO mars_user_group(group_name,query_condition,create_time,update_time,life_cycle)
+        VALUES (#{groupName,jdbcType=VARCHAR},#{queryCondition,jdbcType=VARCHAR},#{createTime},#{updateTime},#{lifeCycle,jdbcType=VARCHAR})
+    </insert>
+    <select id="getUserGroups" parameterType="java.lang.Integer" resultType="com.st.model.MarsUserGroup">
+        SELECT id,group_name as groupName,query_condition as queryCondition,create_time as createTime,life_cycle as lifeCycle
+        FROM  mars_user_group
+        ORDER BY create_time DESC
+        LIMIT
+        #{noPage}, #{pageSize}
+    </select>
+    <select id="getUserGroupCount" resultType="java.lang.Integer">
+        select count(*) as pageCount from mars_user_group
+    </select>
+</mapper>
+
+
+

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsOrderHistoryMapper">
+    <insert id="addOrderHistory" parameterType="java.util.List">
+        INSERT INTO mars_order_history(
+        integration_id,
+        bar_code
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.integrationId},
+            #{item.barCode}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        bar_code=VALUES(bar_code)
+    </insert>
+    <select id="findMarsOrderDsByPage" parameterType="java.lang.Integer" resultType="com.st.model.BabyBarcode">
+        SELECT
+        order_no AS orderNo,
+        baby_title AS babyTitle,
+        bar_code AS barCode
+        FROM baby_barcode
+        limit  #{pageNo},#{pageSize}
+    </select>
+
+    <select id="getAllCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM baby_barcode
+    </select>
+
+    <select id="findMarsOrderDsByInter" parameterType="java.lang.String" resultType="com.st.model.MarsOrderDs">
+        SELECT
+        tid AS tid,
+        buyer_id AS buyerId,
+        alipay_account AS alipayAccount,
+        payable_payment AS payablePayment,
+        payable_ems AS payableEms,
+        payable_integral as payableIntegral,
+        total_amount as totalAmount,
+        return_integral as returnIntegral,
+        actual_payable_integral as actualPayableIntegral,
+        actual_payable_amount as actualPayableAmount,
+        order_status as orderStatus,
+        buyer_message as buyerMessage,
+        receiver_name as receiverName,
+        receiver_address as receiverAddress,
+        transport_mode as transportMode,
+        mobile_phone as mobilePhone,
+        tel_phone as telPhone,
+        bill_create_time as billCreateTime,
+        bill_payment_time as billPaymentTime,
+        baby_title as babyTitle,
+        baby_type as babyType,
+        express_no as expressNo,
+        express_company as expressCompany,
+        order_comment as orderComment,
+        baby_count as babyCount,
+        shop_id as shopId,
+        shop_name as shopName,
+        combine_barcode as combineBarcode,
+        pro_num as proNum,
+        product_type as productType,
+        order_type as orderType,
+        transaction_id as transactionId,
+        origin_code as originCode,
+        dest_code as destCode,
+        result_num as destCode,
+        delivery_time as deliveryTime,
+        total_num as totalNum,
+        big_marker as bigMarker,
+        refund_renum as refundRenum,
+        payment_status as paymentStatus,
+        send_status as sendStatus,
+        order_net_weight as orderNetWeight,
+        gross_orders as grossOrders,
+        product_id as productId,
+        specifications as specifications,
+        suit_detail as suitDetail,
+        shop_product_name as shopProductName,
+        shop_specifications as shopSpecifications,
+        premium_quantity as premiumQuantity,
+        product_quotation as productQuotation,
+        total_product_weight as totalProductWeight,
+        product_return_quantity as productReturnQuantity,
+        receipt_time as receiptTime,
+        discount_amount as discountAmount,
+        trade_source as tradeSource,
+        platform_type as platformType,
+        terminal_type as terminalType,
+        transaction_number as transactionNumber,
+        province as province,
+        city as city,
+        district as district,
+        create_time as createTime,
+        update_time as updateTime,
+        CONCAT(bar_code,'~',express_no) as integrationId,
+        platform_preference as platformPreference,
+        out_tid as outTid,
+        bar_code as barCode,
+        brand_name as brandName,
+        pro_all_account as proAllAccount,
+        pro_sale_account as proSaleAccount,
+        pro_deductible as proDeductible,
+        pro_deal_price as proDealPrice,
+        business_push_flag as businessPushFlag,
+        send_num as sendNum
+        FROM mars_order_history WHERE integration_id = #{integrationId}
+    </select>
+
+    <select id="findIntegrationId" parameterType="java.lang.Integer" resultType="java.lang.String">
+       SELECT CONCAT(order_no,'~',baby_title) as integrationId FROM baby_barcode LIMIT #{pageNo},#{pageSize}
+    </select>
+
+    <update id="updateBarcode" parameterType="java.lang.String">
+        UPDATE mars_order_history SET bar_code = #{barCode} WHERE integration_id = #{integrationId}
+    </update>
+
+    <select id="getCounts" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM mars_order_history
+    </select>
+
+    <select id="findMarsOrderDs" parameterType="java.lang.Integer" resultType="com.st.model.MarsOrderDs">
+        SELECT
+        tid AS tid,
+        buyer_id AS buyerId,
+        alipay_account AS alipayAccount,
+        payable_payment AS payablePayment,
+        payable_ems AS payableEms,
+        payable_integral as payableIntegral,
+        total_amount as totalAmount,
+        return_integral as returnIntegral,
+        actual_payable_integral as actualPayableIntegral,
+        actual_payable_amount as actualPayableAmount,
+        order_status as orderStatus,
+        buyer_message as buyerMessage,
+        receiver_name as receiverName,
+        receiver_address as receiverAddress,
+        transport_mode as transportMode,
+        mobile_phone as mobilePhone,
+        tel_phone as telPhone,
+        bill_create_time as billCreateTime,
+        bill_payment_time as billPaymentTime,
+        baby_title as babyTitle,
+        baby_type as babyType,
+        express_no as expressNo,
+        express_company as expressCompany,
+        order_comment as orderComment,
+        baby_count as babyCount,
+        shop_id as shopId,
+        shop_name as shopName,
+        combine_barcode as combineBarcode,
+        pro_num as proNum,
+        product_type as productType,
+        order_type as orderType,
+        transaction_id as transactionId,
+        origin_code as originCode,
+        dest_code as destCode,
+        result_num as destCode,
+        delivery_time as deliveryTime,
+        total_num as totalNum,
+        big_marker as bigMarker,
+        refund_renum as refundRenum,
+        payment_status as paymentStatus,
+        send_status as sendStatus,
+        order_net_weight as orderNetWeight,
+        gross_orders as grossOrders,
+        product_id as productId,
+        specifications as specifications,
+        suit_detail as suitDetail,
+        shop_product_name as shopProductName,
+        shop_specifications as shopSpecifications,
+        premium_quantity as premiumQuantity,
+        product_quotation as productQuotation,
+        total_product_weight as totalProductWeight,
+        product_return_quantity as productReturnQuantity,
+        receipt_time as receiptTime,
+        discount_amount as discountAmount,
+        trade_source as tradeSource,
+        platform_type as platformType,
+        terminal_type as terminalType,
+        transaction_number as transactionNumber,
+        province as province,
+        city as city,
+        district as district,
+        create_time as createTime,
+        update_time as updateTime,
+        CONCAT(bar_code,'~',express_no) as integrationId,
+        platform_preference as platformPreference,
+        out_tid as outTid,
+        bar_code as barCode,
+        brand_name as brandName,
+        pro_all_account as proAllAccount,
+        pro_sale_account as proSaleAccount,
+        pro_deductible as proDeductible,
+        pro_deal_price as proDealPrice,
+        business_push_flag as businessPushFlag,
+        send_num as sendNum
+        FROM mars_order_history LIMIT #{pageNo},#{pageSize}
+    </select>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.MarsTagClassMapper">
+    <insert id="saveMarsTagClassBatch" parameterType="java.util.List">
+        INSERT INTO mars_tag_class
+            (appkey,classId,className,classDescription,pid,create_time,update_time)
+        VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.appkey},
+            #{item.classId},
+            #{item.className},
+            #{item.classDescription},
+            #{item.pid},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        appkey = VALUES(appkey),
+        classId = VALUES(classId),
+        className=VALUES(className),
+        classDescription=VALUES(classDescription),
+        pid=VALUES(pid)
+    </insert>
+    <delete id="delete">
+        TRUNCATE TABLE mars_tag_class
+    </delete>
+
+    <!-- 通过父Id找子类标签 -->
+    <select id="getMarsUserGroupConditions" parameterType="java.lang.String" resultType="com.st.model.MarsTagClass">
+        SELECT classId as classId,className as className,pid AS pid
+        FROM mars_tag_class
+        WHERE  mars_tag_class.pid = #{pid} AND appkey &lt;&gt; 0
+    </select>
+
+    <select id="selectChild" parameterType="java.lang.String" resultType="Integer">
+        SELECT COUNT(1) FROM mars_tag_class WHERE pid = #{classId}
+    </select>
+</mapper>

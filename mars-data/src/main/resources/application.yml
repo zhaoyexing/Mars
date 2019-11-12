@@ -1,0 +1,203 @@
+server:
+  context-path: /marsdata/
+
+spring:
+  datasource:
+    druid:
+      name: dataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 20
+      initial-size: 1
+      max-idle: 1
+      time-between-eviction-runs-millis: 3600000
+      min-evictable-idle-time-millis: 30000000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      filters: stat
+
+##KOL统计url
+kol:
+  url: http://api.kmp.social-touch.com/project/
+  third_uname: zhoujun1@social-touch.com
+  token: to_bee7454eb407b5ca3fbfbd26a5768b99
+#用户画像url
+user:
+  draw:
+    url: http://api.data.social-touch.com:8091/cdapi/req?appid=35&passwd=8344202725&appkey=172205760&method=
+    short_url: http://api.data.social-touch.com:8091/cdapi/req
+#菜单列表url
+menu:
+  url: http://api.data.social-touch.com/api/getMenuList?appid=wx18e08e92cd265b18&sid=10001&secretkey=c4ca4238a0b923820dcc509a6f75849b&flag=0
+##微信后台统计接口
+#调用scrm接口必传参数
+wxBackstage:
+  keyParam: ?source=89&secret=f9beec53f2fb0ed96da3d38732cf8a39&appid=wx18e08e92cd265b18
+#昨日关键指标
+  anakey: http://api.biz.social-touch.com/app-api/analytics/anakey?source=89&secret=f9beec53f2fb0ed96da3d38732cf8a39&appid=wx18e08e92cd265b18
+#数据趋势
+  anatrend: http://api.biz.social-touch.com/app-api/analytics/anatrend?source=89&secret=f9beec53f2fb0ed96da3d38732cf8a39&appid=wx18e08e92cd265b18
+#传播用户分析
+  anaspread: http://api.biz.social-touch.com/app-api/analytics/anaspread?source=89&secret=f9beec53f2fb0ed96da3d38732cf8a39&appid=wx18e08e92cd265b18
+#文章指标概览
+  anasurvey: http://api.biz.social-touch.com/app-api/analytics/anasurvey?source=89&secret=f9beec53f2fb0ed96da3d38732cf8a39&appid=wx18e08e92cd265b18
+  anaarticlespread: http://api.biz.social-touch.com/app-api/analytics/anaarticlespread?source=89&secret=f9beec53f2fb0ed96da3d38732cf8a39&appid=wx18e08e92cd265b18
+
+scrm:
+  fans_count: http://api.data.social-touch.com:8091/cdapi/req?appid=35&passwd=8344202725&appkey=172205760&method=getDashboardPage
+
+wxMonitor:
+  menuList: http://api.data.social-touch.com/api/getMenuList?appid=wx18e08e92cd265b18&sid=10001&secretkey=c4ca4238a0b923820dcc509a6f75849b&flag=0
+  getMenuClick: http://api.data.social-touch.com:8091/cdapi/req?appid=35&passwd=8344202725&method=getMenuClick&appkey=172205760
+  menuPVTrend: http://api.data.social-touch.com:8091/cdapi/req?appid=35&passwd=8344202725&appkey=172205760&method=searchPv&actionid=6
+  menuUVTrend: http://api.data.social-touch.com:8091/cdapi/req?appid=35&passwd=8344202725&appkey=172205760&method=searchUv&actionid=6
+#电商数据
+e:
+  business:
+    url: http://int.taotonggroup.com/bsg/TtApi/GetTrade2dove.json?apiKey=D659AC0C&shopid=
+
+#Campagin监测
+campagin:
+  activity:
+    url: http://sdmp.social-touch.com/api/task/itemlist?appid=10001&secretkey=ca536f6151a7bf74d9b969b61c8f9412&url=
+
+spring.profiles.active: prod
+
+
+provinces:
+  name:
+    台湾: 164791
+    香港: 164790
+    澳门: 164789
+    重庆: 164788
+    浙江: 164787
+    云南: 164786
+    新疆: 164785
+    西藏: 164784
+    天津: 164783
+    四川: 164782
+    上海: 164781
+    陕西: 164780
+    山西: 164779
+    山东: 164778
+    青海: 164777
+    宁夏: 164776
+    内蒙古: 164775
+    辽宁: 164774
+    江西: 164773
+    江苏: 164772
+    吉林: 164771
+    湖南: 164770
+    湖北: 164769
+    黑龙江: 164768
+    河南: 164767
+    河北: 164766
+    海南: 164765
+    贵州: 164764
+    广西: 164763
+    广东: 164762
+    甘肃: 164761
+    福建: 164760
+    北京: 164759
+    安徽: 164758
+
+province:
+  name:
+    164788: 重庆
+    164787: 浙江
+    164786: 云南
+    164785: 新疆
+    164784: 西藏
+    164783: 天津
+    164782: 四川
+    164781: 上海
+    164780: 陕西
+    164779: 山西
+    164778: 山东
+    164777: 青海
+    164776: 宁夏
+    164775: 内蒙古
+    164774: 辽宁
+    164773: 江西
+    164772: 江苏
+    164771: 吉林
+    164770: 湖南
+    164769: 湖北
+    164768: 黑龙江
+    164767: 河南
+    164766: 河北
+    164765: 海南
+    164764: 贵州
+    164763: 广西
+    164762: 广东
+    164761: 甘肃
+    164760: 福建
+    164759: 北京
+    164758: 安徽
+city:
+  name:
+    北京: 2.39
+    上海: 2.58
+    天津: 1.39
+    重庆: 2.10
+    内蒙古: 1.83
+    广西: 2.95
+    西藏: 0.21
+    宁夏: 0.47
+    新疆: 1.83
+    广东: 11.29
+    福建: 3.85
+    浙江: 5.22
+    辽宁: 3.97
+    江苏: 6.42
+    青海: 0.46
+    山西: 2.87
+    海南: 0.68
+    河北: 5.42
+    陕西: 2.74
+    山东: 6.96
+    吉林: 1.91
+    湖北: 3.96
+    黑龙江: 2.48
+    四川: 4.74
+    湖南: 3.90
+    安徽: 3.48
+    河南: 5.38
+    甘肃: 1.46
+    江西: 2.56
+    贵州: 1.96
+    云南: 2.56
+
+---
+spring:
+  profiles: dev
+  datasource:
+    druid:
+      url: jdbc:mysql://115.28.164.153:3306/mars?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      username: root
+      password: socialdata
+local:
+  path: /bootserver/mars_app/matchbussines/
+  business: /bootserver/mars_app/business_download/
+logging:
+  path: /bootserver/mars_app/logs
+server:
+  port: 9084
+---
+spring:
+  profiles: prod
+  datasource:
+    druid:
+      url: jdbc:mysql://42.159.240.35:8080/mars?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      username: marschocolate
+      password: XdRq0dCL
+local:
+  path: /data/mars_app/download/
+  business: /data/mars_app/business_download/
+logging:
+  path: /data/mars_app/logs
+server:
+  port: 9080
+
